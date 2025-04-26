@@ -5,19 +5,18 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: {
-    default: "chronark.com",
-    template: "%s | chronark.com",
+    default: "Mia's Portfolio",
+    template: "%s | Mia's Portfolio",
   },
-  description: "Co-founder of unkey.dev and founder of planetfall.io",
+  description: "Personal portfolio showcasing projects, F1 stats, and music preferences",
   openGraph: {
-    title: "chronark.com",
-    description:
-      "Co-founder of unkey.dev and founder of planetfall.io",
-    url: "https://chronark.com",
-    siteName: "chronark.com",
+    title: "Mia's Portfolio",
+    description: "Personal portfolio showcasing projects, F1 stats, and music preferences",
+    url: "https://mia-portfolio.vercel.app",
+    siteName: "Mia's Portfolio",
     images: [
       {
-        url: "https://chronark.com/og.png",
+        url: "/og.jpg",
         width: 1920,
         height: 1080,
       },
@@ -37,11 +36,13 @@ export const metadata: Metadata = {
     },
   },
   twitter: {
-    title: "Chronark",
+    title: "Mia's Portfolio",
     card: "summary_large_image",
   },
   icons: {
-    shortcut: "/favicon.png",
+    shortcut: "/icon.png",
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
   },
 };
 const inter = Inter({

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "fmt": "pnpm rome check . --apply-unsafe && pnpm rome format . --write"
+    "fmt": "pnpm rome check . --apply-unsafe && pnpm rome format . --write",
+    "icons": "node scripts/generate-icons.js"
   },
   "dependencies": {
     "@next/font": "^13.5.4",
@@ -27,6 +28,7 @@
     "rehype-pretty-code": "^0.10.1",
     "rehype-slug": "^6.0.0",
     "remark-gfm": "3.0.1",
+    "sharp": "^0.32.6",
     "tailwind-merge": "^3.2.0",
     "typescript": "^5.2.2",
     "zod": "^3.22.4"
