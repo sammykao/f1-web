@@ -19,7 +19,7 @@ const socials = [
 	},
 	{
 		icon: <Bookmark size={20} />,
-		href: "https://substack.com/@miah731/likes",
+		href: "https://substack.com/@miah731/",
 		label: "Substack",
 		handle: "Article Reads",
 	},
