@@ -16,7 +16,9 @@ const LocationSchema = z.object({
   lat: z.string(),
   long: z.string(),
   locality: z.string(),
-  country: z.string()
+  country: z.string(),
+  length: z.string().optional(),
+  turns: z.string().optional()
 });
 
 const CircuitSchema = z.object({
@@ -290,14 +292,47 @@ export interface F1QualifyingResult {
   q3Time?: string;
 }
 
+export interface F1Circuit {
+  id: string;
+  name: string;
+  location: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+  length?: number;
+  turns?: number;
+  image?: string;
+}
+
+export interface F1StartingGrid {
+  position: number;
+  driver: F1Driver;
+  time?: string;
+  gap?: string;
+}
+
+export interface F1FastestLap {
+  driver: F1Driver;
+  lap: number;
+  time: string;
+  averageSpeed?: {
+    speed: number;
+    units: string;
+  };
+}
+
+export interface F1PitStop {
+  driver: F1Driver;
+  lap: number;
+  stop: number;
+  time: string;
+  duration: string;
+}
+
 export interface F1Race {
   round: number;
   raceName: string;
-  circuit: {
-    name: string;
-    location: string;
-    country: string;
-  };
+  circuit: F1Circuit;
   date: string;
   time?: string;
   sessions: {
@@ -502,9 +537,13 @@ export class F1Client {
       round: parseInt(race.round),
       raceName: race.raceName,
       circuit: {
+        id: race.Circuit.circuitId,
         name: race.Circuit.circuitName,
         location: race.Circuit.Location.locality,
-        country: race.Circuit.Location.country
+        country: race.Circuit.Location.country,
+        latitude: parseFloat(race.Circuit.Location.lat),
+        longitude: parseFloat(race.Circuit.Location.long),
+        image: race.Circuit.url
       },
       date: race.date,
       time: race.time,
