@@ -621,6 +621,32 @@ export class F1Client {
     }
     return results;
   }
+
+  async getCircuits(season?: string): Promise<F1Circuit[]> {
+    const endpoint = season ? `/${season}/circuits.json` : '/current/circuits.json';
+    const data = await this.fetchData(endpoint);
+    
+    const circuitResponseSchema = z.object({
+      MRData: MRDataSchema.extend({
+        CircuitTable: z.object({
+          season: z.string().optional(),
+          Circuits: z.array(CircuitSchema)
+        })
+      })
+    });
+
+    const response = circuitResponseSchema.parse(data);
+    
+    return response.MRData.CircuitTable.Circuits.map(circuit => ({
+      id: circuit.circuitId,
+      name: circuit.circuitName,
+      location: circuit.Location.locality,
+      country: circuit.Location.country,
+      latitude: parseFloat(circuit.Location.lat),
+      longitude: parseFloat(circuit.Location.long),
+      image: circuit.url
+    }));
+  }
 }
 
 export const f1Client = new F1Client(); 
