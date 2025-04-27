@@ -18,8 +18,8 @@ importers:
   .:
     dependencies:
       '@daily-co/daily-js':
-        specifier: ^0.78.0
-        version: 0.78.0
+        specifier: ^0.48.0
+        version: 0.48.0
       '@next/font':
         specifier: ^13.5.4
         version: 13.5.11
@@ -183,8 +183,8 @@ packages:
     peerDependencies:
       postcss-selector-parser: ^6.0.13
 
-  '@daily-co/daily-js@0.78.0':
-    resolution: {integrity: sha512-AUmQUJeb0xAHYLYgBccqWGO4gOOs8aFMK7J3Vs9yJXXJwTyF42ytBjCoQ3WjSmgVJ3/Esb39ukQwehr0MjytGg==}
+  '@daily-co/daily-js@0.48.0':
+    resolution: {integrity: sha512-NnBxHmxgztNbx3IFRP519H6bWdpm00UIq/8m2O1Zzc8ltcPI4FRvOSadjBTOmRPp275aMPBlrkqOGE/n9Pl8Uw==}
     engines: {node: '>=10.0.0'}
 
   '@effect-ts/core@0.60.5':
@@ -908,30 +908,6 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@sentry-internal/browser-utils@8.55.0':
-    resolution: {integrity: sha512-ROgqtQfpH/82AQIpESPqPQe0UyWywKJsmVIqi3c5Fh+zkds5LUxnssTj3yNd1x+kxaPDVB023jAP+3ibNgeNDw==}
-    engines: {node: '>=14.18'}
-
-  '@sentry-internal/feedback@8.55.0':
-    resolution: {integrity: sha512-cP3BD/Q6pquVQ+YL+rwCnorKuTXiS9KXW8HNKu4nmmBAyf7urjs+F6Hr1k9MXP5yQ8W3yK7jRWd09Yu6DHWOiw==}
-    engines: {node: '>=14.18'}
-
-  '@sentry-internal/replay-canvas@8.55.0':
-    resolution: {integrity: sha512-nIkfgRWk1091zHdu4NbocQsxZF1rv1f7bbp3tTIlZYbrH62XVZosx5iHAuZG0Zc48AETLE7K4AX9VGjvQj8i9w==}
-    engines: {node: '>=14.18'}
-
-  '@sentry-internal/replay@8.55.0':
-    resolution: {integrity: sha512-roCDEGkORwolxBn8xAKedybY+Jlefq3xYmgN2fr3BTnsXjSYOPC7D1/mYqINBat99nDtvgFvNfRcZPiwwZ1hSw==}
-    engines: {node: '>=14.18'}
-
-  '@sentry/browser@8.55.0':
-    resolution: {integrity: sha512-1A31mCEWCjaMxJt6qGUK+aDnLDcK6AwLAZnqpSchNysGni1pSn1RWSmk9TBF8qyTds5FH8B31H480uxMPUJ7Cw==}
-    engines: {node: '>=14.18'}
-
-  '@sentry/core@8.55.0':
-    resolution: {integrity: sha512-6g7jpbefjHYs821Z+EBJ8r4Z7LT5h80YSWRJaylGS4nW5W5Z2KXzpdnyFarv37O7QjauzVC2E+PABmpkw5/JGA==}
-    engines: {node: '>=14.18'}
-
   '@swc/helpers@0.5.2':
     resolution: {integrity: sha512-E4KcWTpoLHqwPHLxidpOqQbcrZVgi0rsmmZXUle1jXmJfuIf/UWpczUJ7MZZ5tlxytgJXyp0w4PGkkeLiuIdZw==}
 
@@ -1432,6 +1408,9 @@ packages:
 
   extend@3.0.2:
     resolution: {integrity: sha512-fjquC59cD7CyW6urNXK0FBufkZcoiGG80wTuPujX590cB5Ttln20E2UB4S/WARVqhXffZl2LNgS+gQdPIIim/g==}
+
+  fast-equals@1.6.3:
+    resolution: {integrity: sha512-4WKW0AL5+WEqO0zWavAfYGY1qwLsBgE//DN4TTcVEN2UlINgkv9b3vm2iHicoenWKSX9mKWmGOsU/iI5IST7pQ==}
 
   fast-equals@5.2.2:
     resolution: {integrity: sha512-V7/RktU11J3I36Nwq2JnZEM7tNm17eBJz+u25qdxBZeCKiX6BkVSZQjwWIr+IobgnZy+ag73tTZgZi7tr0LrBw==}
@@ -2745,13 +2724,14 @@ snapshots:
     dependencies:
       postcss-selector-parser: 6.1.2
 
-  '@daily-co/daily-js@0.78.0':
+  '@daily-co/daily-js@0.48.0':
     dependencies:
       '@babel/runtime': 7.27.0
-      '@sentry/browser': 8.55.0
       bowser: 2.11.0
       dequal: 2.0.3
       events: 3.3.0
+      fast-equals: 1.6.3
+      lodash: 4.17.21
 
   '@effect-ts/core@0.60.5':
     dependencies:
@@ -3366,34 +3346,6 @@ snapshots:
   '@rometools/cli-win32-x64@12.1.3':
     optional: true
 
-  '@sentry-internal/browser-utils@8.55.0':
-    dependencies:
-      '@sentry/core': 8.55.0
-
-  '@sentry-internal/feedback@8.55.0':
-    dependencies:
-      '@sentry/core': 8.55.0
-
-  '@sentry-internal/replay-canvas@8.55.0':
-    dependencies:
-      '@sentry-internal/replay': 8.55.0
-      '@sentry/core': 8.55.0
-
-  '@sentry-internal/replay@8.55.0':
-    dependencies:
-      '@sentry-internal/browser-utils': 8.55.0
-      '@sentry/core': 8.55.0
-
-  '@sentry/browser@8.55.0':
-    dependencies:
-      '@sentry-internal/browser-utils': 8.55.0
-      '@sentry-internal/feedback': 8.55.0
-      '@sentry-internal/replay': 8.55.0
-      '@sentry-internal/replay-canvas': 8.55.0
-      '@sentry/core': 8.55.0
-
-  '@sentry/core@8.55.0': {}
-
   '@swc/helpers@0.5.2':
     dependencies:
       tslib: 2.8.1
@@ -3874,6 +3826,8 @@ snapshots:
       is-extendable: 0.1.1
 
   extend@3.0.2: {}
+
+  fast-equals@1.6.3: {}
 
   fast-equals@5.2.2: {}
 
