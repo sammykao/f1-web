@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Card, CardTitle, CardDescription } from '../components/card';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../components/ui/tabs';
+import { Navigation } from "../components/nav";
 
 interface OtfData {
   workouts: any[];
@@ -35,6 +36,7 @@ export default function OtfPage() {
 
   return (
     <div className="p-8 max-w-5xl mx-auto">
+      <Navigation />
       <h1 className="text-3xl font-bold mb-2">OrangeTheory Dashboard</h1>
       <p className="text-zinc-400 mb-8">Your OTF stats, classes, and progress at a glance.</p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
