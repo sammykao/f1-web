@@ -78,9 +78,9 @@ export default function OtfPage() {
       </div>
       <Tabs defaultValue="classes" className="w-full">
         <TabsList className="mb-4">
-          <TabsTrigger value="classes">Upcoming Classes</TabsTrigger>
           <TabsTrigger value="performance">Performance</TabsTrigger>
           <TabsTrigger value="bookings">Bookings</TabsTrigger>
+          <TabsTrigger value="classes">Upcoming Classes</TabsTrigger>
           <TabsTrigger value="challenges">Challenges</TabsTrigger>
           <TabsTrigger value="studios">Studios</TabsTrigger>
         </TabsList>
