@@ -35,6 +35,13 @@ export default function OtfPage() {
   if (error) return <div className="p-8 text-red-500">{error}</div>;
   if (!loading && !data) return <div className="p-8">No data found.</div>;
 
+  const formatNumber = (v: any) => {
+    if (typeof v === 'number' && !Number.isInteger(v)) {
+      return v.toFixed(2);
+    }
+    return v;
+  };
+
   return (
     <div className="p-8 max-w-5xl mx-auto">
       <Navigation />
@@ -51,7 +58,7 @@ export default function OtfPage() {
                 Object.entries(data.stats || {}).map(([k, v]) => (
                   <li key={k} className="flex justify-between text-zinc-300">
                     <span className="capitalize">{k.replace(/_/g, ' ')}:</span>
-                    <span className="font-mono">{String(v)}</span>
+                    <span className="font-mono">{formatNumber(v)}</span>
                   </li>
                 ))
               )}
@@ -68,7 +75,7 @@ export default function OtfPage() {
                 Object.entries(data.stats_this_month || {}).map(([k, v]) => (
                   <li key={k} className="flex justify-between text-zinc-300">
                     <span className="capitalize">{k.replace(/_/g, ' ')}:</span>
-                    <span className="font-mono">{String(v)}</span>
+                    <span className="font-mono">{formatNumber(v)}</span>
                   </li>
                 ))
               )}
@@ -76,7 +83,7 @@ export default function OtfPage() {
           </CardDescription>
         </Card>
       </div>
-      <Tabs defaultValue="classes" className="w-full">
+      <Tabs defaultValue="performance" className="w-full">
         <TabsList className="mb-4">
           <TabsTrigger value="performance">Performance</TabsTrigger>
           <TabsTrigger value="bookings">Bookings</TabsTrigger>
@@ -163,11 +170,11 @@ export default function OtfPage() {
                     <ResponsiveContainer width="100%" height={250}>
                       <AreaChart data={reversed.slice(-10).map((p: any) => ({
                         date: p.starts_at ? new Date(p.starts_at).toLocaleDateString() : '',
-                        gray: p.zone_time_minutes?.gray ?? 0,
-                        blue: p.zone_time_minutes?.blue ?? 0,
-                        green: p.zone_time_minutes?.green ?? 0,
-                        orange: p.zone_time_minutes?.orange ?? 0,
-                        red: p.zone_time_minutes?.red ?? 0,
+                        gray: formatNumber(p.zone_time_minutes?.gray ?? 0),
+                        blue: formatNumber(p.zone_time_minutes?.blue ?? 0),
+                        green: formatNumber(p.zone_time_minutes?.green ?? 0),
+                        orange: formatNumber(p.zone_time_minutes?.orange ?? 0),
+                        red: formatNumber(p.zone_time_minutes?.red ?? 0),
                       }))}>
                         <XAxis dataKey="date" stroke="#fff" tick={{ fill: '#fff' }} />
                         <YAxis stroke="#fff" tick={{ fill: '#fff' }} />
@@ -206,8 +213,8 @@ export default function OtfPage() {
                           <td className="p-2">{dt ? dt.toLocaleDateString() : '-'}</td>
                           <td className="p-2">{p.class_name || '-'}</td>
                           <td className="p-2">{p.coach || '-'}</td>
-                          <td className="p-2">{p.calories_burned ?? '-'}</td>
-                          <td className="p-2">{p.splat_points ?? '-'}</td>
+                          <td className="p-2">{p.calories_burned !== undefined ? formatNumber(p.calories_burned) : '-'}</td>
+                          <td className="p-2">{p.splat_points !== undefined ? formatNumber(p.splat_points) : '-'}</td>
                         </tr>
                       );
                     })}
