@@ -70,7 +70,7 @@ class handler(BaseHTTPRequestHandler):
             self.send_header('Content-type', 'application/json')
             self.end_headers()
             def json_serial(obj):
-                if isinstance(obj, (datetime.datetime, datetime.date)):
+                if isinstance(obj, (datetime.datetime, datetime.date, datetime.time)):
                     return obj.isoformat()
                 raise TypeError(f"Type {type(obj)} not serializable")
             self.wfile.write(json.dumps(data, default=json_serial).encode())
