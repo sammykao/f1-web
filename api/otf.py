@@ -1,4 +1,5 @@
 import os
+os.environ["HOME"] = "/tmp"
 import json
 from otf_api import Otf, OtfUser
 from http.server import BaseHTTPRequestHandler
