@@ -79,8 +79,8 @@ export default function OtfPage() {
       <Tabs defaultValue="classes" className="w-full">
         <TabsList className="mb-4">
           <TabsTrigger value="classes">Upcoming Classes</TabsTrigger>
-          <TabsTrigger value="bookings">Bookings</TabsTrigger>
           <TabsTrigger value="performance">Performance</TabsTrigger>
+          <TabsTrigger value="bookings">Bookings</TabsTrigger>
           <TabsTrigger value="challenges">Challenges</TabsTrigger>
           <TabsTrigger value="studios">Studios</TabsTrigger>
         </TabsList>
@@ -91,7 +91,7 @@ export default function OtfPage() {
               {loading || !data ? (
                 <div className="h-8 bg-zinc-800 animate-pulse rounded w-full mb-2" />
               ) : (
-                <table className="min-w-full text-sm">
+                <table className="min-w-full text-sm text-white">
                   <thead>
                     <tr className="text-zinc-400">
                       <th className="text-left p-2">Date</th>
@@ -120,6 +120,103 @@ export default function OtfPage() {
             </div>
           </Card>
         </TabsContent>
+        <TabsContent value="performance">
+          <Card>
+            <CardTitle>Performance Summaries</CardTitle>
+            {/* Cool Graphs - now above the table, and data reversed for date order */}
+            {(!loading && data && data.performance_summaries && data.performance_summaries.length > 0) && (() => {
+              const reversed = [...data.performance_summaries].reverse();
+              return (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                  <div>
+                    <h3 className="font-semibold text-zinc-200 mb-2">Calories Burned Over Time</h3>
+                    <ResponsiveContainer width="100%" height={200}>
+                      <LineChart data={reversed.map((p: any) => ({
+                        date: p.starts_at ? new Date(p.starts_at).toLocaleDateString() : '',
+                        calories: p.calories_burned ?? 0,
+                      }))}>
+                        <XAxis dataKey="date" stroke="#fff" tick={{ fill: '#fff' }} />
+                        <YAxis stroke="#fff" tick={{ fill: '#fff' }} />
+                        <Tooltip contentStyle={{ background: '#18181b', color: '#fff' }} />
+                        <Legend />
+                        <Line type="monotone" dataKey="calories" stroke="#f97316" strokeWidth={2} />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-zinc-200 mb-2">Splat Points Over Time</h3>
+                    <ResponsiveContainer width="100%" height={200}>
+                      <BarChart data={reversed.map((p: any) => ({
+                        date: p.starts_at ? new Date(p.starts_at).toLocaleDateString() : '',
+                        splat: p.splat_points ?? 0,
+                      }))}>
+                        <XAxis dataKey="date" stroke="#fff" tick={{ fill: '#fff' }} />
+                        <YAxis stroke="#fff" tick={{ fill: '#fff' }} />
+                        <Tooltip contentStyle={{ background: '#18181b', color: '#fff' }} />
+                        <Legend />
+                        <Bar dataKey="splat" fill="#a21caf" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <div className="col-span-1 md:col-span-2">
+                    <h3 className="font-semibold text-zinc-200 mb-2">Zone Minutes (Last 10 Workouts)</h3>
+                    <ResponsiveContainer width="100%" height={250}>
+                      <AreaChart data={reversed.slice(-10).map((p: any) => ({
+                        date: p.starts_at ? new Date(p.starts_at).toLocaleDateString() : '',
+                        gray: p.zone_time_minutes?.gray ?? 0,
+                        blue: p.zone_time_minutes?.blue ?? 0,
+                        green: p.zone_time_minutes?.green ?? 0,
+                        orange: p.zone_time_minutes?.orange ?? 0,
+                        red: p.zone_time_minutes?.red ?? 0,
+                      }))}>
+                        <XAxis dataKey="date" stroke="#fff" tick={{ fill: '#fff' }} />
+                        <YAxis stroke="#fff" tick={{ fill: '#fff' }} />
+                        <Tooltip contentStyle={{ background: '#18181b', color: '#fff' }} />
+                        <Legend />
+                        <Area type="monotone" dataKey="gray" stackId="1" stroke="#a3a3a3" fill="#a3a3a3" />
+                        <Area type="monotone" dataKey="blue" stackId="1" stroke="#60a5fa" fill="#60a5fa" />
+                        <Area type="monotone" dataKey="green" stackId="1" stroke="#22c55e" fill="#22c55e" />
+                        <Area type="monotone" dataKey="orange" stackId="1" stroke="#f97316" fill="#f97316" />
+                        <Area type="monotone" dataKey="red" stackId="1" stroke="#ef4444" fill="#ef4444" />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+              );
+            })()}
+            <div className="overflow-x-auto mt-2">
+              {loading || !data ? (
+                <div className="h-8 bg-zinc-800 animate-pulse rounded w-full mb-2" />
+              ) : (
+                <table className="min-w-full text-sm mb-8 text-white">
+                  <thead>
+                    <tr className="text-zinc-400">
+                      <th className="text-left p-2">Date</th>
+                      <th className="text-left p-2">Class</th>
+                      <th className="text-left p-2">Coach</th>
+                      <th className="text-left p-2">Calories</th>
+                      <th className="text-left p-2">Splat Points</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {(data.performance_summaries || []).map((p: any, i: number) => {
+                      const dt = p.starts_at ? new Date(p.starts_at) : null;
+                      return (
+                        <tr key={i} className="border-b border-zinc-800">
+                          <td className="p-2">{dt ? dt.toLocaleDateString() : '-'}</td>
+                          <td className="p-2">{p.class_name || '-'}</td>
+                          <td className="p-2">{p.coach || '-'}</td>
+                          <td className="p-2">{p.calories_burned ?? '-'}</td>
+                          <td className="p-2">{p.splat_points ?? '-'}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              )}
+            </div>
+          </Card>
+        </TabsContent>
         <TabsContent value="bookings">
           <Card>
             <CardTitle>Bookings</CardTitle>
@@ -127,7 +224,7 @@ export default function OtfPage() {
               {loading || !data ? (
                 <div className="h-8 bg-zinc-800 animate-pulse rounded w-full mb-2" />
               ) : (
-                <table className="min-w-full text-sm">
+                <table className="min-w-full text-sm text-white">
                   <thead>
                     <tr className="text-zinc-400">
                       <th className="text-left p-2">Date</th>
@@ -156,100 +253,6 @@ export default function OtfPage() {
                 </table>
               )}
             </div>
-          </Card>
-        </TabsContent>
-        <TabsContent value="performance">
-          <Card>
-            <CardTitle>Performance Summaries</CardTitle>
-            <div className="overflow-x-auto mt-2 mb-8">
-              {loading || !data ? (
-                <div className="h-8 bg-zinc-800 animate-pulse rounded w-full mb-2" />
-              ) : (
-                <table className="min-w-full text-sm mb-8">
-                  <thead>
-                    <tr className="text-zinc-400">
-                      <th className="text-left p-2">Date</th>
-                      <th className="text-left p-2">Class</th>
-                      <th className="text-left p-2">Coach</th>
-                      <th className="text-left p-2">Calories</th>
-                      <th className="text-left p-2">Splat Points</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {(data.performance_summaries || []).map((p: any, i: number) => {
-                      const dt = p.starts_at ? new Date(p.starts_at) : null;
-                      return (
-                        <tr key={i} className="border-b border-zinc-800">
-                          <td className="p-2">{dt ? dt.toLocaleDateString() : '-'}</td>
-                          <td className="p-2">{p.class_name || '-'}</td>
-                          <td className="p-2">{p.coach || '-'}</td>
-                          <td className="p-2">{p.calories_burned ?? '-'}</td>
-                          <td className="p-2">{p.splat_points ?? '-'}</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              )}
-            </div>
-            {/* Cool Graphs */}
-            {(!loading && data && data.performance_summaries && data.performance_summaries.length > 0) && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="font-semibold text-zinc-200 mb-2">Calories Burned Over Time</h3>
-                  <ResponsiveContainer width="100%" height={200}>
-                    <LineChart data={data.performance_summaries.map((p: any) => ({
-                      date: p.starts_at ? new Date(p.starts_at).toLocaleDateString() : '',
-                      calories: p.calories_burned ?? 0,
-                    }))}>
-                      <XAxis dataKey="date" />
-                      <YAxis />
-                      <Tooltip />
-                      <Legend />
-                      <Line type="monotone" dataKey="calories" stroke="#f97316" strokeWidth={2} />
-                    </LineChart>
-                  </ResponsiveContainer>
-                </div>
-                <div>
-                  <h3 className="font-semibold text-zinc-200 mb-2">Splat Points Over Time</h3>
-                  <ResponsiveContainer width="100%" height={200}>
-                    <BarChart data={data.performance_summaries.map((p: any) => ({
-                      date: p.starts_at ? new Date(p.starts_at).toLocaleDateString() : '',
-                      splat: p.splat_points ?? 0,
-                    }))}>
-                      <XAxis dataKey="date" />
-                      <YAxis />
-                      <Tooltip />
-                      <Legend />
-                      <Bar dataKey="splat" fill="#a21caf" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-                <div className="col-span-1 md:col-span-2">
-                  <h3 className="font-semibold text-zinc-200 mb-2">Zone Minutes (Last 10 Workouts)</h3>
-                  <ResponsiveContainer width="100%" height={250}>
-                    <AreaChart data={data.performance_summaries.slice(-10).map((p: any) => ({
-                      date: p.starts_at ? new Date(p.starts_at).toLocaleDateString() : '',
-                      gray: p.zone_time_minutes?.gray ?? 0,
-                      blue: p.zone_time_minutes?.blue ?? 0,
-                      green: p.zone_time_minutes?.green ?? 0,
-                      orange: p.zone_time_minutes?.orange ?? 0,
-                      red: p.zone_time_minutes?.red ?? 0,
-                    }))}>
-                      <XAxis dataKey="date" />
-                      <YAxis />
-                      <Tooltip />
-                      <Legend />
-                      <Area type="monotone" dataKey="gray" stackId="1" stroke="#a3a3a3" fill="#a3a3a3" />
-                      <Area type="monotone" dataKey="blue" stackId="1" stroke="#60a5fa" fill="#60a5fa" />
-                      <Area type="monotone" dataKey="green" stackId="1" stroke="#22c55e" fill="#22c55e" />
-                      <Area type="monotone" dataKey="orange" stackId="1" stroke="#f97316" fill="#f97316" />
-                      <Area type="monotone" dataKey="red" stackId="1" stroke="#ef4444" fill="#ef4444" />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-            )}
           </Card>
         </TabsContent>
         <TabsContent value="challenges">
