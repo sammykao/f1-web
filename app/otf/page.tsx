@@ -30,9 +30,8 @@ export default function OtfPage() {
       });
   }, []);
 
-  if (loading) return <div className="p-8">Loading OrangeTheory data...</div>;
   if (error) return <div className="p-8 text-red-500">{error}</div>;
-  if (!data) return <div className="p-8">No data found.</div>;
+  if (!loading && !data) return <div className="p-8">No data found.</div>;
 
   return (
     <div className="p-8 max-w-5xl mx-auto">
@@ -43,12 +42,16 @@ export default function OtfPage() {
           <CardTitle>Lifetime Stats</CardTitle>
           <CardDescription>
             <ul className="mt-2 space-y-1">
-              {Object.entries(data.stats || {}).map(([k, v]) => (
-                <li key={k} className="flex justify-between text-zinc-300">
-                  <span className="capitalize">{k.replace(/_/g, ' ')}:</span>
-                  <span className="font-mono">{String(v)}</span>
-                </li>
-              ))}
+              {loading || !data ? (
+                <li className="animate-pulse h-4 bg-zinc-800 rounded w-3/4 mb-2" />
+              ) : (
+                Object.entries(data.stats || {}).map(([k, v]) => (
+                  <li key={k} className="flex justify-between text-zinc-300">
+                    <span className="capitalize">{k.replace(/_/g, ' ')}:</span>
+                    <span className="font-mono">{String(v)}</span>
+                  </li>
+                ))
+              )}
             </ul>
           </CardDescription>
         </Card>
@@ -56,12 +59,16 @@ export default function OtfPage() {
           <CardTitle>This Month</CardTitle>
           <CardDescription>
             <ul className="mt-2 space-y-1">
-              {Object.entries(data.stats_this_month || {}).map(([k, v]) => (
-                <li key={k} className="flex justify-between text-zinc-300">
-                  <span className="capitalize">{k.replace(/_/g, ' ')}:</span>
-                  <span className="font-mono">{String(v)}</span>
-                </li>
-              ))}
+              {loading || !data ? (
+                <li className="animate-pulse h-4 bg-zinc-800 rounded w-3/4 mb-2" />
+              ) : (
+                Object.entries(data.stats_this_month || {}).map(([k, v]) => (
+                  <li key={k} className="flex justify-between text-zinc-300">
+                    <span className="capitalize">{k.replace(/_/g, ' ')}:</span>
+                    <span className="font-mono">{String(v)}</span>
+                  </li>
+                ))
+              )}
             </ul>
           </CardDescription>
         </Card>
@@ -78,26 +85,30 @@ export default function OtfPage() {
           <Card>
             <CardTitle>Upcoming Classes</CardTitle>
             <div className="overflow-x-auto mt-2">
-              <table className="min-w-full text-sm">
-                <thead>
-                  <tr className="text-zinc-400">
-                    <th className="text-left p-2">Date</th>
-                    <th className="text-left p-2">Time</th>
-                    <th className="text-left p-2">Coach</th>
-                    <th className="text-left p-2">Type</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {(data.classes || []).map((c: any, i: number) => (
-                    <tr key={i} className="border-b border-zinc-800">
-                      <td className="p-2">{c.date || '-'}</td>
-                      <td className="p-2">{c.time || '-'}</td>
-                      <td className="p-2">{c.coach_name || '-'}</td>
-                      <td className="p-2">{c.class_type || '-'}</td>
+              {loading || !data ? (
+                <div className="h-8 bg-zinc-800 animate-pulse rounded w-full mb-2" />
+              ) : (
+                <table className="min-w-full text-sm">
+                  <thead>
+                    <tr className="text-zinc-400">
+                      <th className="text-left p-2">Date</th>
+                      <th className="text-left p-2">Time</th>
+                      <th className="text-left p-2">Coach</th>
+                      <th className="text-left p-2">Type</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {(data.classes || []).map((c: any, i: number) => (
+                      <tr key={i} className="border-b border-zinc-800">
+                        <td className="p-2">{c.date || '-'}</td>
+                        <td className="p-2">{c.time || '-'}</td>
+                        <td className="p-2">{c.coach_name || '-'}</td>
+                        <td className="p-2">{c.class_type || '-'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
             </div>
           </Card>
         </TabsContent>
@@ -105,24 +116,28 @@ export default function OtfPage() {
           <Card>
             <CardTitle>Bookings</CardTitle>
             <div className="overflow-x-auto mt-2">
-              <table className="min-w-full text-sm">
-                <thead>
-                  <tr className="text-zinc-400">
-                    <th className="text-left p-2">Date</th>
-                    <th className="text-left p-2">Status</th>
-                    <th className="text-left p-2">Studio</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {(data.bookings || []).map((b: any, i: number) => (
-                    <tr key={i} className="border-b border-zinc-800">
-                      <td className="p-2">{b.class_date || '-'}</td>
-                      <td className="p-2">{b.status || '-'}</td>
-                      <td className="p-2">{b.studio_name || '-'}</td>
+              {loading || !data ? (
+                <div className="h-8 bg-zinc-800 animate-pulse rounded w-full mb-2" />
+              ) : (
+                <table className="min-w-full text-sm">
+                  <thead>
+                    <tr className="text-zinc-400">
+                      <th className="text-left p-2">Date</th>
+                      <th className="text-left p-2">Status</th>
+                      <th className="text-left p-2">Studio</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {(data.bookings || []).map((b: any, i: number) => (
+                      <tr key={i} className="border-b border-zinc-800">
+                        <td className="p-2">{b.class_date || '-'}</td>
+                        <td className="p-2">{b.status || '-'}</td>
+                        <td className="p-2">{b.studio_name || '-'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
             </div>
           </Card>
         </TabsContent>
@@ -130,26 +145,30 @@ export default function OtfPage() {
           <Card>
             <CardTitle>Performance Summaries</CardTitle>
             <div className="overflow-x-auto mt-2">
-              <table className="min-w-full text-sm">
-                <thead>
-                  <tr className="text-zinc-400">
-                    <th className="text-left p-2">Date</th>
-                    <th className="text-left p-2">Calories</th>
-                    <th className="text-left p-2">Splat Points</th>
-                    <th className="text-left p-2">Avg HR</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {(data.performance_summaries || []).map((p: any, i: number) => (
-                    <tr key={i} className="border-b border-zinc-800">
-                      <td className="p-2">{p.class_date || '-'}</td>
-                      <td className="p-2">{p.calories || '-'}</td>
-                      <td className="p-2">{p.splat_points || '-'}</td>
-                      <td className="p-2">{p.avg_hr || '-'}</td>
+              {loading || !data ? (
+                <div className="h-8 bg-zinc-800 animate-pulse rounded w-full mb-2" />
+              ) : (
+                <table className="min-w-full text-sm">
+                  <thead>
+                    <tr className="text-zinc-400">
+                      <th className="text-left p-2">Date</th>
+                      <th className="text-left p-2">Calories</th>
+                      <th className="text-left p-2">Splat Points</th>
+                      <th className="text-left p-2">Avg HR</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {(data.performance_summaries || []).map((p: any, i: number) => (
+                      <tr key={i} className="border-b border-zinc-800">
+                        <td className="p-2">{p.class_date || '-'}</td>
+                        <td className="p-2">{p.calories || '-'}</td>
+                        <td className="p-2">{p.splat_points || '-'}</td>
+                        <td className="p-2">{p.avg_hr || '-'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
             </div>
           </Card>
         </TabsContent>
@@ -160,21 +179,29 @@ export default function OtfPage() {
               <div>
                 <h3 className="font-semibold text-zinc-200 mb-2">By Equipment</h3>
                 <ul className="space-y-1">
-                  {Object.entries(data.equipment_challenges || {}).map(([k, v]: any) => (
-                    <li key={k}>
-                      <span className="font-mono text-zinc-400">{k}</span>: <span className="text-zinc-300">{Array.isArray(v) ? v.length : 0} entries</span>
-                    </li>
-                  ))}
+                  {loading || !data ? (
+                    <li className="animate-pulse h-4 bg-zinc-800 rounded w-1/2 mb-2" />
+                  ) : (
+                    Object.entries(data.equipment_challenges || {}).map(([k, v]: any) => (
+                      <li key={k}>
+                        <span className="font-mono text-zinc-400">{k}</span>: <span className="text-zinc-300">{Array.isArray(v) ? v.length : 0} entries</span>
+                      </li>
+                    ))
+                  )}
                 </ul>
               </div>
               <div>
                 <h3 className="font-semibold text-zinc-200 mb-2">By Category</h3>
                 <ul className="space-y-1">
-                  {Object.entries(data.category_challenges || {}).map(([k, v]: any) => (
-                    <li key={k}>
-                      <span className="font-mono text-zinc-400">{k}</span>: <span className="text-zinc-300">{Array.isArray(v) ? v.length : 0} entries</span>
-                    </li>
-                  ))}
+                  {loading || !data ? (
+                    <li className="animate-pulse h-4 bg-zinc-800 rounded w-1/2 mb-2" />
+                  ) : (
+                    Object.entries(data.category_challenges || {}).map(([k, v]: any) => (
+                      <li key={k}>
+                        <span className="font-mono text-zinc-400">{k}</span>: <span className="text-zinc-300">{Array.isArray(v) ? v.length : 0} entries</span>
+                      </li>
+                    ))
+                  )}
                 </ul>
               </div>
             </div>
@@ -187,38 +214,54 @@ export default function OtfPage() {
               <div>
                 <h3 className="font-semibold text-zinc-200 mb-2">Nearby Studios</h3>
                 <ul className="space-y-1">
-                  {(data.studios_by_geo || []).map((s: any, i: number) => (
-                    <li key={i}>
-                      <span className="font-mono text-zinc-400">{s.name}</span> <span className="text-zinc-300">({s.city}, {s.state})</span>
-                    </li>
-                  ))}
+                  {loading || !data ? (
+                    <li className="animate-pulse h-4 bg-zinc-800 rounded w-1/2 mb-2" />
+                  ) : (
+                    (data.studios_by_geo || []).map((s: any, i: number) => (
+                      <li key={i}>
+                        <span className="font-mono text-zinc-400">{s.name}</span> <span className="text-zinc-300">({s.city}, {s.state})</span>
+                      </li>
+                    ))
+                  )}
                 </ul>
               </div>
               <div>
                 <h3 className="font-semibold text-zinc-200 mb-2">Favorite Studios</h3>
                 <ul className="space-y-1">
-                  {(data.favorite_studios || []).map((s: any, i: number) => (
-                    <li key={i}>
-                      <span className="font-mono text-zinc-400">{s.name}</span> <span className="text-zinc-300">({s.city}, {s.state})</span>
-                    </li>
-                  ))}
+                  {loading || !data ? (
+                    <li className="animate-pulse h-4 bg-zinc-800 rounded w-1/2 mb-2" />
+                  ) : (
+                    (data.favorite_studios || []).map((s: any, i: number) => (
+                      <li key={i}>
+                        <span className="font-mono text-zinc-400">{s.name}</span> <span className="text-zinc-300">({s.city}, {s.state})</span>
+                      </li>
+                    ))
+                  )}
                 </ul>
               </div>
             </div>
             <div className="mt-4">
               <h3 className="font-semibold text-zinc-200 mb-2">Studio Detail</h3>
-              <pre className="bg-zinc-900 text-zinc-100 p-2 rounded text-xs overflow-x-auto">
-                {JSON.stringify(data.studio_detail, null, 2)}
-              </pre>
+              {loading || !data ? (
+                <div className="h-8 bg-zinc-800 animate-pulse rounded w-full mb-2" />
+              ) : (
+                <pre className="bg-zinc-900 text-zinc-100 p-2 rounded text-xs overflow-x-auto">
+                  {JSON.stringify(data.studio_detail, null, 2)}
+                </pre>
+              )}
             </div>
             <div className="mt-4">
               <h3 className="font-semibold text-zinc-200 mb-2">Studio Services</h3>
               <ul className="space-y-1">
-                {(data.studio_services || []).map((svc: any, i: number) => (
-                  <li key={i}>
-                    <span className="font-mono text-zinc-400">{svc.name}</span>
-                  </li>
-                ))}
+                {loading || !data ? (
+                  <li className="animate-pulse h-4 bg-zinc-800 rounded w-1/2 mb-2" />
+                ) : (
+                  (data.studio_services || []).map((svc: any, i: number) => (
+                    <li key={i}>
+                      <span className="font-mono text-zinc-400">{svc.name}</span>
+                    </li>
+                  ))
+                )}
               </ul>
             </div>
           </Card>
