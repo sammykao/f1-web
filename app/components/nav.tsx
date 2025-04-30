@@ -46,6 +46,12 @@ export const Navigation: React.FC = () => {
 						>
 							Me
 						</Link>
+						<Link
+							href="/otf"
+							className="duration-200 text-zinc-400 hover:text-zinc-100"
+						>
+							OTF Dashboard
+						</Link>
 					</div>
 
 					<Link

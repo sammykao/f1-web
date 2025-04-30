@@ -5,6 +5,7 @@ from otf_api import Otf, OtfUser
 from otf_api.filters import ClassFilter, ClassType, DoW
 from otf_api.models.enums import ChallengeCategory, EquipmentType, StatsTime
 from http.server import BaseHTTPRequestHandler
+import datetime
 
 class handler(BaseHTTPRequestHandler):
     def do_GET(self):
@@ -68,7 +69,11 @@ class handler(BaseHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Content-type', 'application/json')
             self.end_headers()
-            self.wfile.write(json.dumps(data).encode())
+            def json_serial(obj):
+                if isinstance(obj, (datetime.datetime, datetime.date)):
+                    return obj.isoformat()
+                raise TypeError(f"Type {type(obj)} not serializable")
+            self.wfile.write(json.dumps(data, default=json_serial).encode())
         except Exception as e:
             # Log the error to the console
             print("Error in handler:", e)
