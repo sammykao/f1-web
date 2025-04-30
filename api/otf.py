@@ -24,9 +24,39 @@ class handler(BaseHTTPRequestHandler):
             # Authenticate and fetch data
             otf = Otf(user=OtfUser(email, password))
 
-            # Classes
-            classes = [c.model_dump() for c in otf.get_classes()]
-            bookings = [b.model_dump() for b in otf.get_bookings()]
+            # Classes (flatten fields)
+            classes = []
+            for c in otf.get_classes():
+                d = c.model_dump()
+                # Flatten
+                d_flat = {
+                    "name": d.get("name"),
+                    "starts_at": d.get("starts_at"),
+                    "coach": d.get("coach") if isinstance(d.get("coach"), str) else (
+                        f"{d.get('coach', {}).get('first_name', '')} {d.get('coach', {}).get('last_name', '')}".strip() if d.get('coach') else None
+                    ),
+                    "studio": d.get("studio", {}).get("name") if d.get("studio") else None,
+                    "raw": d
+                }
+                classes.append(d_flat)
+
+            # Bookings (flatten fields)
+            bookings = []
+            for b in otf.get_bookings():
+                d = b.model_dump()
+                otf_class = d.get("otf_class", {})
+                coach = otf_class.get("coach")
+                coach_name = coach if isinstance(coach, str) else (
+                    f"{coach.get('first_name', '')} {coach.get('last_name', '')}".strip() if coach else None
+                )
+                bookings.append({
+                    "class_name": otf_class.get("name"),
+                    "starts_at": otf_class.get("starts_at"),
+                    "studio": otf_class.get("studio", {}).get("name") if otf_class.get("studio") else None,
+                    "coach": coach_name,
+                    "status": d.get("status"),
+                    "raw": d
+                })
 
             # Challenge Data
             equipment_challenges = {}
@@ -40,8 +70,20 @@ class handler(BaseHTTPRequestHandler):
             stats = otf.get_member_lifetime_stats_in_studio().model_dump()
             stats_this_month = otf.get_member_lifetime_stats_in_studio(StatsTime.ThisMonth).model_dump()
 
-            # Performance summaries
-            performance_summaries = [s.model_dump() for s in otf.get_performance_summaries()]
+            # Performance summaries (flatten fields)
+            performance_summaries = []
+            for s in otf.get_performance_summaries():
+                d = s.model_dump()
+                otf_class = d.get("otf_class", {})
+                performance_summaries.append({
+                    "class_name": otf_class.get("name"),
+                    "starts_at": otf_class.get("starts_at"),
+                    "calories_burned": d.get("calories_burned"),
+                    "splat_points": d.get("splat_points"),
+                    "zone_time_minutes": d.get("zone_time_minutes"),
+                    "coach": d.get("coach"),
+                    "raw": d
+                })
 
             # Studio data
             studios_by_geo = [s.model_dump() for s in otf.search_studios_by_geo()]

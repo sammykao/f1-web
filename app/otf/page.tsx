@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Card, CardTitle, CardDescription } from '../components/card';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../components/ui/tabs';
 import { Navigation } from "../components/nav";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend, BarChart, Bar, AreaChart, Area } from 'recharts';
 
 interface OtfData {
   workouts: any[];
@@ -96,18 +97,23 @@ export default function OtfPage() {
                       <th className="text-left p-2">Date</th>
                       <th className="text-left p-2">Time</th>
                       <th className="text-left p-2">Coach</th>
-                      <th className="text-left p-2">Type</th>
+                      <th className="text-left p-2">Studio</th>
+                      <th className="text-left p-2">Class</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {(data.classes || []).map((c: any, i: number) => (
-                      <tr key={i} className="border-b border-zinc-800">
-                        <td className="p-2">{c.date || '-'}</td>
-                        <td className="p-2">{c.time || '-'}</td>
-                        <td className="p-2">{c.coach_name || '-'}</td>
-                        <td className="p-2">{c.class_type || '-'}</td>
-                      </tr>
-                    ))}
+                    {(data.classes || []).map((c: any, i: number) => {
+                      const dt = c.starts_at ? new Date(c.starts_at) : null;
+                      return (
+                        <tr key={i} className="border-b border-zinc-800">
+                          <td className="p-2">{dt ? dt.toLocaleDateString() : '-'}</td>
+                          <td className="p-2">{dt ? dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'}</td>
+                          <td className="p-2">{c.coach || '-'}</td>
+                          <td className="p-2">{c.studio || '-'}</td>
+                          <td className="p-2">{c.name || '-'}</td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               )}
@@ -125,18 +131,27 @@ export default function OtfPage() {
                   <thead>
                     <tr className="text-zinc-400">
                       <th className="text-left p-2">Date</th>
-                      <th className="text-left p-2">Status</th>
+                      <th className="text-left p-2">Time</th>
+                      <th className="text-left p-2">Coach</th>
                       <th className="text-left p-2">Studio</th>
+                      <th className="text-left p-2">Class</th>
+                      <th className="text-left p-2">Status</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {(data.bookings || []).map((b: any, i: number) => (
-                      <tr key={i} className="border-b border-zinc-800">
-                        <td className="p-2">{b.class_date || '-'}</td>
-                        <td className="p-2">{b.status || '-'}</td>
-                        <td className="p-2">{b.studio_name || '-'}</td>
-                      </tr>
-                    ))}
+                    {(data.bookings || []).map((b: any, i: number) => {
+                      const dt = b.starts_at ? new Date(b.starts_at) : null;
+                      return (
+                        <tr key={i} className="border-b border-zinc-800">
+                          <td className="p-2">{dt ? dt.toLocaleDateString() : '-'}</td>
+                          <td className="p-2">{dt ? dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'}</td>
+                          <td className="p-2">{b.coach || '-'}</td>
+                          <td className="p-2">{b.studio || '-'}</td>
+                          <td className="p-2">{b.class_name || '-'}</td>
+                          <td className="p-2">{b.status || '-'}</td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               )}
@@ -146,32 +161,95 @@ export default function OtfPage() {
         <TabsContent value="performance">
           <Card>
             <CardTitle>Performance Summaries</CardTitle>
-            <div className="overflow-x-auto mt-2">
+            <div className="overflow-x-auto mt-2 mb-8">
               {loading || !data ? (
                 <div className="h-8 bg-zinc-800 animate-pulse rounded w-full mb-2" />
               ) : (
-                <table className="min-w-full text-sm">
+                <table className="min-w-full text-sm mb-8">
                   <thead>
                     <tr className="text-zinc-400">
                       <th className="text-left p-2">Date</th>
+                      <th className="text-left p-2">Class</th>
+                      <th className="text-left p-2">Coach</th>
                       <th className="text-left p-2">Calories</th>
                       <th className="text-left p-2">Splat Points</th>
-                      <th className="text-left p-2">Avg HR</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {(data.performance_summaries || []).map((p: any, i: number) => (
-                      <tr key={i} className="border-b border-zinc-800">
-                        <td className="p-2">{p.class_date || '-'}</td>
-                        <td className="p-2">{p.calories || '-'}</td>
-                        <td className="p-2">{p.splat_points || '-'}</td>
-                        <td className="p-2">{p.avg_hr || '-'}</td>
-                      </tr>
-                    ))}
+                    {(data.performance_summaries || []).map((p: any, i: number) => {
+                      const dt = p.starts_at ? new Date(p.starts_at) : null;
+                      return (
+                        <tr key={i} className="border-b border-zinc-800">
+                          <td className="p-2">{dt ? dt.toLocaleDateString() : '-'}</td>
+                          <td className="p-2">{p.class_name || '-'}</td>
+                          <td className="p-2">{p.coach || '-'}</td>
+                          <td className="p-2">{p.calories_burned ?? '-'}</td>
+                          <td className="p-2">{p.splat_points ?? '-'}</td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               )}
             </div>
+            {/* Cool Graphs */}
+            {(!loading && data && data.performance_summaries && data.performance_summaries.length > 0) && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="font-semibold text-zinc-200 mb-2">Calories Burned Over Time</h3>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <LineChart data={data.performance_summaries.map((p: any) => ({
+                      date: p.starts_at ? new Date(p.starts_at).toLocaleDateString() : '',
+                      calories: p.calories_burned ?? 0,
+                    }))}>
+                      <XAxis dataKey="date" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Line type="monotone" dataKey="calories" stroke="#f97316" strokeWidth={2} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-zinc-200 mb-2">Splat Points Over Time</h3>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <BarChart data={data.performance_summaries.map((p: any) => ({
+                      date: p.starts_at ? new Date(p.starts_at).toLocaleDateString() : '',
+                      splat: p.splat_points ?? 0,
+                    }))}>
+                      <XAxis dataKey="date" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="splat" fill="#a21caf" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="col-span-1 md:col-span-2">
+                  <h3 className="font-semibold text-zinc-200 mb-2">Zone Minutes (Last 10 Workouts)</h3>
+                  <ResponsiveContainer width="100%" height={250}>
+                    <AreaChart data={data.performance_summaries.slice(-10).map((p: any) => ({
+                      date: p.starts_at ? new Date(p.starts_at).toLocaleDateString() : '',
+                      gray: p.zone_time_minutes?.gray ?? 0,
+                      blue: p.zone_time_minutes?.blue ?? 0,
+                      green: p.zone_time_minutes?.green ?? 0,
+                      orange: p.zone_time_minutes?.orange ?? 0,
+                      red: p.zone_time_minutes?.red ?? 0,
+                    }))}>
+                      <XAxis dataKey="date" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Area type="monotone" dataKey="gray" stackId="1" stroke="#a3a3a3" fill="#a3a3a3" />
+                      <Area type="monotone" dataKey="blue" stackId="1" stroke="#60a5fa" fill="#60a5fa" />
+                      <Area type="monotone" dataKey="green" stackId="1" stroke="#22c55e" fill="#22c55e" />
+                      <Area type="monotone" dataKey="orange" stackId="1" stroke="#f97316" fill="#f97316" />
+                      <Area type="monotone" dataKey="red" stackId="1" stroke="#ef4444" fill="#ef4444" />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            )}
           </Card>
         </TabsContent>
         <TabsContent value="challenges">
