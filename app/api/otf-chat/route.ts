@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { v4 as uuidv4 } from 'uuid';
 
 const OTF_AGENT_URL = process.env.OTF_AGENT_URL;
 const CHAT_PASSWORD = process.env.OTF_CHAT_PASSWORD;
