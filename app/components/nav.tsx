@@ -47,6 +47,12 @@ export const Navigation: React.FC = () => {
 							OTF
 						</Link>
 						<Link
+							href="/psychology"
+							className="duration-200 text-zinc-400 hover:text-zinc-100"
+						>
+							Psychology
+						</Link>
+						<Link
 							href="/contact"
 							className="duration-200 text-zinc-400 hover:text-zinc-100"
 						>

@@ -12,16 +12,16 @@ const socials = [
 		handle: "@miah0731",
 	},
 	{
-		icon: <Book size={20} />,
-		href: "https://www.goodreads.com/user/show/170470540-mia-hall",
-		label: "Goodreads",
-		handle: "My booklist",
-	},
-	{
 		icon: <Bookmark size={20} />,
 		href: "https://substack.com/@miah731/",
 		label: "Substack",
 		handle: "Article Reads",
+	},
+	{
+		icon: <Book size={20} />,
+		href: "/psychology",
+		label: "Psychology",
+		handle: "Psychology",
 	},
 ];
 

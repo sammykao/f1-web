@@ -47,14 +47,6 @@ export default function OtfPage() {
       <Navigation />
       <h1 className="text-3xl font-bold mb-2">OrangeTheory Dashboard</h1>
       <p className="text-zinc-400 mb-8">Your OTF stats, classes, and progress at a glance.</p>
-      <div className="mb-8">
-        <a
-          href="/otf/chat"
-          className="inline-block bg-orange-500 text-white font-semibold px-6 py-2 rounded shadow hover:bg-orange-600 transition border border-orange-400"
-        >
-          Go to OTF Chat
-        </a>
-      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <Card>
           <CardTitle>Lifetime Stats</CardTitle>
