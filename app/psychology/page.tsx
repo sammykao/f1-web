@@ -19,34 +19,49 @@ const RESOURCES_PORT = 10000;
 // Resource lists for each section
 const RESEARCH_RESOURCES = [
   {
-    domain: "Eating Disorders & Treatment Access",
-    site: "https://www.theprojectheal.org",
-    description: "Provides equitable access to eating disorder treatment for underserved communities. They help to remove barriers such as insurance difficultys, financial strain, and provider bias. They are a national treatment acess program founded by indiviudals with lived experiences."
+    domain: "Scientific Research",
+    site: "https://www.apa.org/",
+    description: "The APA is the leading scientific and professional organization representing psychology in the United States. APA offers evidence-based articles backed by peer-reviewed research. It also sets ethical and professional standards in the field of psychology."
   },
   {
-    domain: "suicide prevention",
-    site: "https://afsp.org",
-    description: "Funds suicide prevention research, offers education programs, advocates for mental health policies, and supports survivors of suicide loss. Provides evidence-based strategies to reduce risk and stigma surrounding suicice. They are backed by scienfitif research with chapters in every state and publishes annual suicide statistics to raise awareness on the subject."
+    domain: "Scientific Research",
+    site: "https://www.psychiatry.org/",
+    description: "As the national professional organization for psychiatrists, this association provides resources on the diagnosis and medical treatment of mental illness. Their content is grounded in DSM guidelines and current research."
   },
   {
-    domain: "Women's depression",
-    site: "https://strongminds.org",
-    description: "Provides mental health treatment for women in sub-Saharan Africa using group talk therapy for depression. This is espeically important because they target untreated depression in communities where mental health services are scarce, improving both psychological and economic well-being. They use proven, low-cost, scalable therapy model that are recognized by WHO and global health networks."
+    domain: "Scientific Research",
+    site: "https://www.nimh.nih.gov/",
+    description: "NIMH is the lead federal agency for research on mental disorders. Their resources are based on scientific evidence and continuously updated to reflect advancements in neuroscience, treatment, and public policy."
   },
   {
-    domain: "Addition & Substance Use",
-    site: "https://www.shatterproof.org/",
-    description: "A national nonprofit dedicated to finding protective factors against the addiction crisis, especially opioids, in the U.S by improving addiction treatment and advocay for policy changes. They offer resources for families, builds evidence-based treatment systems, and leads the ATLAS platform, which rates addiction treatment centers. They collaborate with state governments, health insurers, and policymakers. It was founded by a father who lost his son to addiction, which drives their mission."
+    domain: "Education",
+    site: "https://www.nami.org/",
+    description: "NAMI is a grassroots mental health organization focused on advocacy, education, and support. Their peer-led programs combine lived experiences with clinical guidance, making mental health literacy more accessible."
   },
   {
-    domain: "LGBTQ+ Youth Mental Health",
-    site: "https://www.thetrevorproject.org/public-education",
-    description: "Provides crisis intervention and suicide prevention services to LGBTQ+ youth under 25. LGBTQ+ youth face disproportionately high rates of mental health struggles and suicide. Trevor Project offers 24/7 support via text, chat, and phone. They are the nation's leading LGBTQ+ crisis intervention organization and frequently cited in national research. They have strong collaborations with with educational and policy institutions."
+    domain: "Education",
+    site: "https://www.fountainhouse.org/about",
+    description: "Fountain House pioneered the 'clubhouse' model for psychosocial rehabilitation. They offer supportive housing, employment programs, and peer-led initiatives based on a globally recognized, evidence-based model."
   },
   {
-    domain: "Child & Family Mental Health",
-    site: "https://www.ffcmh.org",
-    description: "Family-run national organization that advocates for families with children facing mental health and substance use challenges. They specifically target children;s mental health and family support drawing on community-based systems of health. They partner with SAMHSA and offer certified family peer support models."
+    domain: "Education",
+    site: "https://www.helpguide.org/",
+    description: "HelpGuide is a nonprofit mental health resource offering easy-to-understand self-help content on topics such as emotional intelligence, trauma, grief, and relationships. Their guides are developed with licensed professionals."
+  },
+  {
+    domain: "Youth Mental Health",
+    site: "https://jedfoundation.org/",
+    description: "The JED Foundation focuses on emotional health and suicide prevention for teens and young adults. They work with schools to implement mental health programs, toolkits, and awareness campaigns backed by clinical expertise."
+  },
+  {
+    domain: "Youth Mental Health",
+    site: "https://childmind.org/",
+    description: "Child Mind Institute supports children and families struggling with mental health and learning disorders. Their evidence-based resources are created by clinicians and tailored for parents and educators."
+  },
+  {
+    domain: "Community Mental Health",
+    site: "https://www.samhsa.gov/",
+    description: "SAMHSA is the U.S. government's agency for behavioral health. They lead national efforts like the 988 hotline, trauma-informed care programs, and community prevention, rooted in public health research."
   }
 ];
 
@@ -54,34 +69,35 @@ const SPECIFIC_RESOURCES = [
   {
     domain: "Eating Disorders & Treatment Access",
     site: "https://www.theprojectheal.org",
-    description: "Provides equitable access to eating disorder treatment for underserved communities. They help to remove barriers such as insurance difficultys, financial strain, and provider bias. They are a national treatment acess program founded by indiviudals with lived experiences."
+    description: "Provides equitable access to eating disorder treatment for underserved communities by removing barriers such as insurance difficulties, financial strain, and provider bias. Founded by individuals with lived experience."
   },
   {
-    domain: "suicide prevention",
+    domain: "Suicide Prevention",
     site: "https://afsp.org",
-    description: "Funds suicide prevention research, offers education programs, advocates for mental health policies, and supports survivors of suicide loss. Provides evidence-based strategies to reduce risk and stigma surrounding suicice. They are backed by scienfitif research with chapters in every state and publishes annual suicide statistics to raise awareness on the subject."
+    description: "AFSP funds suicide prevention research, advocates for mental health policy, and supports survivors. Their evidence-based programs and annual statistics aim to reduce stigma and promote awareness nationwide."
   },
   {
-    domain: "Women's depression",
+    domain: "Women's Depression",
     site: "https://strongminds.org",
-    description: "Provides mental health treatment for women in sub-Saharan Africa using group talk therapy for depression. This is espeically important because they target untreated depression in communities where mental health services are scarce, improving both psychological and economic well-being. They use proven, low-cost, scalable therapy model that are recognized by WHO and global health networks."
+    description: "StrongMinds offers group talk therapy for women in sub-Saharan Africa suffering from untreated depression. Their low-cost, scalable model is WHO-endorsed and community-based."
   },
   {
-    domain: "Addition & Substance Use",
+    domain: "Addiction & Substance Use",
     site: "https://www.shatterproof.org/",
-    description: "A national nonprofit dedicated to finding protective factors against the addiction crisis, especially opioids, in the U.S by improving addiction treatment and advocay for policy changes. They offer resources for families, builds evidence-based treatment systems, and leads the ATLAS platform, which rates addiction treatment centers. They collaborate with state governments, health insurers, and policymakers. It was founded by a father who lost his son to addiction, which drives their mission."
+    description: "A nonprofit focused on reversing the addiction crisis, especially opioids, by improving treatment systems, advocating policy change, and rating providers via the ATLAS platform. Founded by a grieving father."
   },
   {
     domain: "LGBTQ+ Youth Mental Health",
     site: "https://www.thetrevorproject.org/public-education",
-    description: "Provides crisis intervention and suicide prevention services to LGBTQ+ youth under 25. LGBTQ+ youth face disproportionately high rates of mental health struggles and suicide. Trevor Project offers 24/7 support via text, chat, and phone. They are the nation's leading LGBTQ+ crisis intervention organization and frequently cited in national research. They have strong collaborations with with educational and policy institutions."
+    description: "The Trevor Project offers 24/7 suicide prevention and crisis services for LGBTQ+ youth under 25. Their work is nationally recognized and supported by research, policy, and education partnerships."
   },
   {
     domain: "Child & Family Mental Health",
     site: "https://www.ffcmh.org",
-    description: "Family-run national organization that advocates for families with children facing mental health and substance use challenges. They specifically target children;s mental health and family support drawing on community-based systems of health. They partner with SAMHSA and offer certified family peer support models."
+    description: "The FFCMH advocates for children with mental health and substance use challenges. They offer peer support and family-driven models in collaboration with SAMHSA and community organizations."
   }
 ];
+
 
 export default function PsychologyPage() {
   const [activeTab, setActiveTab] = useState<"research" | "resources">("research");
@@ -194,7 +210,7 @@ export default function PsychologyPage() {
               ${activeTab === "research" ? "bg-zinc-800 text-blue-400 shadow-md" : "bg-transparent text-zinc-300 hover:bg-zinc-800 hover:text-blue-300"}`}
             onClick={() => setActiveTab("research")}
           >
-            Research
+            Mental Health Resources
           </button>
           <button
             className={`px-6 py-2 rounded-lg font-semibold focus:outline-none transition-all duration-200 text-lg 

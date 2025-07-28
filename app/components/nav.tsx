@@ -26,35 +26,35 @@ export const Navigation: React.FC = () => {
 						: "bg-zinc-900/500  border-zinc-800 "
 				}`}
 			>
-				<div className="container flex flex-row-reverse items-center justify-between p-6 mx-auto">
-					<div className="flex justify-between gap-8">
+				<div className="container flex flex-row-reverse items-center justify-between p-4 md:p-6 mx-auto">
+					<div className="flex justify-between gap-2 md:gap-4 lg:gap-8">
 						<Link
 							href="/cool-stuff"
-							className="duration-200 text-zinc-400 hover:text-zinc-100"
+							className="duration-200 text-zinc-400 hover:text-zinc-100 text-xs md:text-sm lg:text-base"
 						>
 							Cool Stuff
 						</Link>
 						<Link
 							href="/vroom"
-							className="duration-200 text-zinc-400 hover:text-zinc-100"
+							className="duration-200 text-zinc-400 hover:text-zinc-100 text-xs md:text-sm lg:text-base"
 						>
 							Vroom
 						</Link>
 						<Link
 							href="/otf"
-							className="duration-200 text-zinc-400 hover:text-zinc-100"
+							className="duration-200 text-zinc-400 hover:text-zinc-100 text-xs md:text-sm lg:text-base"
 						>
 							OTF
 						</Link>
 						<Link
 							href="/psychology"
-							className="duration-200 text-zinc-400 hover:text-zinc-100"
+							className="duration-200 text-zinc-400 hover:text-zinc-100 text-xs md:text-sm lg:text-base"
 						>
 							Psychology
 						</Link>
 						<Link
 							href="/contact"
-							className="duration-200 text-zinc-400 hover:text-zinc-100"
+							className="duration-200 text-zinc-400 hover:text-zinc-100 text-xs md:text-sm lg:text-base"
 						>
 							Me
 						</Link>
